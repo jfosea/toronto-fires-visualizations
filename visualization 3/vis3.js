@@ -37,10 +37,7 @@ d3.json("toronto.json", function (data) {
             .enter()
             .append("circle")
             .attr("class", "fire")
-            .attr("r", function (d) {
-                var cost = d.Estimated_Dollar_Loss/15000
-                return cost
-            })
+            .attr("r", 5)
             .attr("cx", function (d) {
                 var coords = projection([d.Longitude, d.Latitude])
                 return coords[0]
@@ -65,6 +62,19 @@ d3.json("toronto.json", function (data) {
                     return "#4f40d6"
                 }
             })
-            .attr("opacity", "0.7")
+            .attr("opacity", function(d) {
+                var loss = d.Estimated_Dollar_Loss
+                if (loss < 10000) {
+                    return "0.4"
+                } else if (loss >= 10000 & loss < 50000) {
+                    return "0.6"
+                } else if (loss>= 50000 & loss < 100000) {
+                    return "0.8"
+                } else if (loss>= 100000) {
+                    return "1"
+                } else {
+                    return "0"
+                }
+            })
     });
 });
